@@ -13,7 +13,6 @@ export default async function Home() {
         {chatHistory.map((chat, index) => (<p key={index}>{chat.sender}: {chat.message}</p>))}
       </div>
       <SendMessageForm sendMessage={sendMessage} />
-
     </main>
   );
 }
