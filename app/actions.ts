@@ -11,11 +11,16 @@ const BASE_URL = 'http://localhost:11434' // base url for the local llm
 const MODEL_NAME = 'qwen2:0.5b'
 
 export async function healthCheck(): Promise<string> {
-  const result = await fetch(BASE_URL)
-  if (result.ok) {
-    return await result.text()
+  let result = []
+  const ollamaStatus = await fetch(BASE_URL)
+
+  if (!ollamaStatus.ok) {
+    result.push('local ollama unreachable')
+  } else {
+    result.push(await ollamaStatus.text())
   }
-  return 'local ollama unreachable'
+
+  return result.reduce((acc, curr) => `${acc}, ${curr}`, '')
 }
 
 export function getChatHistory(): ChatItem[] {
